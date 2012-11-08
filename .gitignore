@@ -1,0 +1,16 @@
+data/
+db/*.sqlite3
+log/*.log
+tmp/
+.sass-cache/
+solr/data/
+
+solr/apache-solr-4.0-trunk/
+
+.DS_Store
+
+solr/solr.log
+
+.idea/*
+
+.*.sw*
