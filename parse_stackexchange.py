@@ -7,7 +7,6 @@ posts, posthistory, users, votes.
 This script enters into the specified directory and combines the data 
 into an xml file readable by Solr.
 
-If there is no schema.xml written, it writes that too.
 """
 
 from lxml import etree
