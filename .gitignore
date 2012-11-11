@@ -15,3 +15,5 @@ solr/solr.log
 
 .*.sw*
 scifidata/
+*.csv
+*.pyc
