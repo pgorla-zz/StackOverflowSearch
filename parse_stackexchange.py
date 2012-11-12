@@ -14,16 +14,20 @@ Relevant Fields:
 """
 
 from lxml import etree
+import sys
 
 from bs4 import BeautifulSoup
 from pandas import DataFrame
 
 
-DATADIR = "scifidata/"
+try:
+    xml = sys.argv[1]
+except IndexError:
+    xml = "data/posts.xml"
 
-xml = "posts.xml"
+out = "%s.csv" % xml.split('.')
 
-doc = etree.parse("%s%s" % (DATADIR, xml))
+doc = etree.parse("%s" % xml)
 posts = [dict(e.items()) for e in doc.getiterator() if e.items() != []]
 df = DataFrame(posts)
 
@@ -63,7 +67,7 @@ df['Tags'] = df['Tags'].map(parse_tags)
 
 cols = ['Id', 'Body', 'ClosedDate', 'CreationDate', 'Title', 'Tags']
 
-df.to_csv('all.csv',
+df.to_csv(out,
     cols=cols,
     index=False,
     index_label=False,
