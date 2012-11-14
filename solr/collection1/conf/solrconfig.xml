@@ -751,9 +751,26 @@
          will be overridden by parameters in the request
       -->
      <lst name="defaults">
+
+    <!-- Comment out to remove debugging. -->
+       <str name="debugQuery">on</str>
+
+       <str name="defType">edismax</str>
        <str name="echoParams">explicit</str>
        <int name="rows">10</int>
-       <str name="df">text</str>
+
+       <float name="tie">0.1</float>
+
+       <str name="sort">score desc</str>
+       <str name="fl">* score</str>
+
+       <str name="qf">Title^0.8 Body^0.6 Tags^2</str>
+       <str name="qs">1</str>
+
+       <str name="pf">Title^2 Body^0.3 Tags^2</str> 
+       <str name="ps">0</str>
+
+
      </lst>
     <!-- In addition to defaults, "appends" params can be specified
          to identify values which should be appended to the list of

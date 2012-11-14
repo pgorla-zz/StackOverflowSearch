@@ -99,7 +99,6 @@
    <field name="_version_" type="long" indexed="true" stored="true"/>
         
    <field name="Id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <dynammicField name="price_c" type="currency" indexed="true" stored="true" required="true" />
 
    <field name="CreationDate" type="tdate" indexed="true" stored="true" multiValued="false" /> 
    <field name="ClosedDate" type="tdate" indexed="true" stored="false" multiValued="false" /> 
