@@ -27,7 +27,7 @@ except IndexError:
 
 out = "%s.csv" % xml.split('.')[0]
 
-doc = etree.parse("%s" % xml)
+doc = etree.parse(xml)
 posts = [dict(e.items()) for e in doc.getiterator() if e.items() != []]
 df = DataFrame(posts)
 
@@ -53,16 +53,15 @@ def parse_tags(tag):
     try:
         tag = tag.replace('<', ' ')
         tag = tag.replace('>', ' ')
-        tags = [t.replace('-', ' ') for t in tag.split()]
+        tags = ' '.join([t.replace('-', ' ') for t in tag.split()])
     except AttributeError:
         # This means there are no tags provided.
-        tags = [""]
+        tags = ""
 
     return tags
 
 df['Body'] = df['Body'].map(decode_body)
 df['CreationDate'] = df['CreationDate'].map(utcify)
-#df['ClosedDate'] = df['ClosedDate'].map(utcify)
 df['Tags'] = df['Tags'].map(parse_tags)
 
 cols = ['Id', 'Body', 'CreationDate', 'Title', 'Tags']
@@ -71,4 +70,4 @@ df.to_csv(out,
     cols=cols,
     index=False,
     index_label=False,
-    encoding='utf-8')
+    encoding='utf-8') # NOTE: Must specify encoding.

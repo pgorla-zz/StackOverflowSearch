@@ -105,10 +105,10 @@
 
    <field name="Title" type="text_en_splitting" indexed="true" stored="true" multiValued="false"/>
    <field name="Body" type="text_en_splitting" indexed="true" stored="true" multiValued="false"/>
-   <field name="Tags" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="Tags" type="text_ws" indexed="true" stored="true" multiValued="true"/>
    <field name="OwnerUserId" type="string" indexed="true" stored="true" multiValued="false"/>
 
-   <field name="Score" type="tint" indexed="false" stored="true" multiValued="false"/>
+   <field name="Score" type="tint" indexed="true" stored="true" multiValued="false"/>
    <field name="ViewCount" type="tint" indexed="false" stored="true" multiValued="false"/>
    <field name="AnswerCount" type="tint" indexed="false" stored="true" multiValued="false"/>
    <field name="CommentCount" type="tint" indexed="false" stored="true" multiValued="false"/>
