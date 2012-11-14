@@ -4,7 +4,7 @@
 # 2. Process xml into csv.
 # 3. Commit to Solr.
 
-read_and_commit() {
+read_data() {
 
     DATA=data/split_xml*
 
@@ -26,6 +26,9 @@ read_and_commit() {
     python parse_stackexchange.py $dat
 
     done
+}
+
+commit_data() {
 
     CSV=data/*.csv
 
@@ -33,10 +36,16 @@ read_and_commit() {
     do
     # Commit each csv file to Solr.
     
-    echo "Committing $dat to Solr"
-    curl http://localhost:8983/solr/update/csv?commit=true -F stream.file=$csv -F f.t_r_attributes.split=true
+    echo "Committing $csv to Solr"
+    curl http://localhost:8983/solr/update/csv?commit=true -F stream.file=`pwd`/$csv -F f.t_r_attributes.split=true
 
     done
+}
+
+delete_data() {
+
+    echo "Deleting all data from Solr."
+    curl http://localhost:8983/solr/update?commit=true --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
 }
 
 # If the file has not already been split, split it.
@@ -49,4 +58,5 @@ then
     touch ./data/split
 fi
 
-read_and_commit;
+#read_data;
+commit_data;
