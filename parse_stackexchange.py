@@ -25,7 +25,7 @@ try:
 except IndexError:
     xml = "data/posts.xml"
 
-out = "%s.csv" % xml.split('.')
+out = "%s.csv" % xml.split('.')[0]
 
 doc = etree.parse("%s" % xml)
 posts = [dict(e.items()) for e in doc.getiterator() if e.items() != []]
@@ -62,10 +62,10 @@ def parse_tags(tag):
 
 df['Body'] = df['Body'].map(decode_body)
 df['CreationDate'] = df['CreationDate'].map(utcify)
-df['ClosedDate'] = df['ClosedDate'].map(utcify)
+#df['ClosedDate'] = df['ClosedDate'].map(utcify)
 df['Tags'] = df['Tags'].map(parse_tags)
 
-cols = ['Id', 'Body', 'ClosedDate', 'CreationDate', 'Title', 'Tags']
+cols = ['Id', 'Body', 'CreationDate', 'Title', 'Tags']
 
 df.to_csv(out,
     cols=cols,
