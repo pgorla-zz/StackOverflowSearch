@@ -10,6 +10,7 @@ solr/apache-solr-4.0-trunk/
 .DS_Store
 
 solr/solr.log
+solr/collection1/data
 
 .idea/*
 
