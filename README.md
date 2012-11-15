@@ -1,6 +1,11 @@
 Stack Overflow Search
 ================================
 
+[Download OpenNLP](http://opennlp.apache.org`).
+
+[Download the OpenNLP models](http://dev.iks-project.eu/downloads/opennlp/models-1.5/).
+en-sent en-token
+
 
 To start Solr:
 
