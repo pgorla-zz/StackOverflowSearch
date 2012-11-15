@@ -747,9 +747,12 @@
        queries across multiple shards
     -->
   <requestHandler name="/select" class="solr.SearchHandler">
-    <!-- default values for query parameters can be specified, these
-         will be overridden by parameters in the request
+    <!-- Essential search with 
+         * relevancy scoring
+         * faceting
+         * autocomplete
       -->
+
      <lst name="defaults">
 
     <!-- Comment out to remove debugging. -->
@@ -770,6 +773,17 @@
        <str name="pf">Title^2 Body^0.3 Tags^2</str> 
        <str name="ps">0</str>
 
+       <str name="facets">true</str>
+       <str name="facet.field">Tags</str>
+
+       <!-- Indexed date data must be grouped by the date gap, or
+            the month and year need to be parsed out.
+       <str name="facet.range">CreationDate</str>
+       <str name="facet.range.start">NOW/YEAR-3YEARS</str>
+       <str name="facet.range.end">NOW/YEAR-2YEARS</str>
+       <str name="facet.range.gap">+6MONTHS</str>
+       -->
+    
 
      </lst>
     <!-- In addition to defaults, "appends" params can be specified
