@@ -81,6 +81,8 @@
   <lib dir="../../../contrib/velocity/lib" regex=".*\.jar" />
   <lib dir="../../../dist/" regex="apache-solr-velocity-\d.*\.jar" />
 
+  <lib dir="../../../contrib/opennlp/lib" regex=".*\.jar" />
+  <lib dir="../../../dist/" regex="apache-solr-opennlp-\d.*\.jar" />
   <!-- If a 'dir' option (with or without a regex) is used and nothing
        is found that matches, it will be ignored
     -->
