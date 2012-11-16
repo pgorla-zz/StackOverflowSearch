@@ -101,7 +101,6 @@
    <field name="Id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
 
    <field name="CreationDate" type="tdate" indexed="true" stored="true" multiValued="false" /> 
-   <field name="ClosedDate" type="tdate" indexed="true" stored="false" multiValued="false" /> 
 
    <field name="Title" type="text_en_splitting" indexed="true" stored="true" multiValued="false"/>
    <field name="Body" type="text_en_splitting" indexed="true" stored="true" multiValued="false"/>
@@ -109,10 +108,12 @@
    <field name="OwnerUserId" type="string" indexed="true" stored="true" multiValued="false"/>
 
    <field name="Score" type="tint" indexed="true" stored="true" multiValued="false"/>
-   <field name="ViewCount" type="tint" indexed="false" stored="true" multiValued="false"/>
-   <field name="AnswerCount" type="tint" indexed="false" stored="true" multiValued="false"/>
-   <field name="CommentCount" type="tint" indexed="false" stored="true" multiValued="false"/>
-   <field name="FavoriteCount" type="tint" indexed="false" stored="true" multiValued="false"/>
+   <field name="ViewCount" type="tint" indexed="true" stored="true" multiValued="false"/>
+   <field name="AnswerCount" type="tint" indexed="true" stored="true" multiValued="false"/>
+   <field name="CommentCount" type="tint" indexed="true" stored="true" multiValued="false"/>
+   <field name="FavoriteCount" type="tint" indexed="true" stored="true" multiValued="false"/>
+
+   <field name="NLPEntities" type="text_opennlp_nvf" indexed="true" stored="true" />
 
    <!-- Common metadata fields, named specifically to match up with
      SolrCell metadata when parsing rich documents such as Word, PDF.
@@ -281,6 +282,20 @@
     </fieldType>
     -->
 
+
+    <fieldType name="text_opennlp_nvf" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+          tokenizerModel="opennlp/en-token.bin"/>
+        <filter class="solr.OpenNLPFilterFactory"
+          posTaggerModel="opennlp/en-pos-maxent.bin" />
+        <filter class="solr.FilterPayloadsFilterFactory"
+          payloadList="NN,NNS,NNP,NNPS,VB,VBD,VBG,VBN,VBP,VBZ,FW"/>
+        <filter class="solr.StripPayloadsFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+
     <!-- A text field that only splits on whitespace for exact matching of words -->
     <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
@@ -436,8 +451,8 @@
     </fieldType>
 
     <!-- charFilter + WhitespaceTokenizer  -->
-   <!-- Create a string version of author for faceting -->
-   <copyField source="author" dest="author_s"/>
+
+   <copyField source="Body" dest="NLPEntities"/>
     <!--
     <fieldType name="text_char_norm" class="solr.TextField" positionIncrementGap="100" >
       <analyzer>
