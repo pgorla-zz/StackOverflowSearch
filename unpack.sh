@@ -4,24 +4,13 @@
 # 2. Process xml into csv.
 # 3. Commit to Solr.
 
-read_data() {
+process_data() {
 
     DATA=data/split_xml*
 
     for dat in $DATA
     do
-    # All files will be missing the xml header, as well as an opening
-    # and closing <post> tag.
-    # Well, all except for the first and last files, so the workaround
-    # to this is to simply remove these from the master, and process
-    # all files alike.
-    
-    echo "Writing valid xml for $dat"
-    cat $dat > /tmp/$dat
-    echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><posts>" | cat > $dat
-    cat /tmp/$dat >> $dat
-    echo "</posts>" | cat >> $dat
-
+   
     echo "Processing $dat"
     python parse_stackexchange.py $dat
 
@@ -56,7 +45,23 @@ then
     split ./data/posts.xml -l 10000 "data/split_xml"
     # Poor man's flag
     touch ./data/split
+
+    DATA=./data/split_xml*
+
+    for dat in $DATA
+    do
+     # All files will be missing the xml header, as well as an opening
+    # and closing <post> tag.
+    # Well, all except for the first and last files, so the workaround
+    # to this is to simply remove these from the master, and process
+    # all files alike.
+    echo "Writing valid xml for $dat"
+    echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><posts>" | cat > $dat
+    cat /tmp/$dat >> $dat
+    echo "</posts>" | cat >> $dat
+    done
+
 fi
 
-#read_data;
+process_data;
 commit_data;
