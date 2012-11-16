@@ -113,7 +113,7 @@
    <field name="CommentCount" type="tint" indexed="true" stored="true" multiValued="false"/>
    <field name="FavoriteCount" type="tint" indexed="true" stored="true" multiValued="false"/>
 
-   <field name="NLPEntities" type="text_opennlp_nvf" indexed="true" stored="true" />
+   <field name="NLPEntities" type="text_opennlp" indexed="true" stored="true" />
 
    <!-- Common metadata fields, named specifically to match up with
      SolrCell metadata when parsing rich documents such as Word, PDF.
@@ -282,9 +282,30 @@
     </fieldType>
     -->
 
-
-    <fieldType name="text_opennlp_nvf" class="solr.TextField" positionIncrementGap="100">
+    <fieldType name="text_opennlp_pos" class="solr.TextField"
+        positionIncrementGap="100">
       <analyzer>
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+          tokenizerModel="opennlp/en-token.bin" />
+
+        <filter class="solr.OpenNLPFilterFactory"
+          posTaggerModel="opennlp/en-pos-maxent.bin" />
+
+        <filter class="solr.FilterPayloadsFilterFactory"
+          keepPayloads="true"
+          payloadList="NN,NNS,NNP"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_opennlp" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.OpenNLPTokenizerFactory"
+          sentenceModel="opennlp/en-sent.bin"
+          tokenizerModel="opennlp/en-token.bin" />
+      </analyzer>
+    </fieldType>
+
+<fieldType name="text_opennlp_nvf" class="solr.TextField" positionIncrementGap="100">
         <tokenizer class="solr.OpenNLPTokenizerFactory"
           tokenizerModel="opennlp/en-token.bin"/>
         <filter class="solr.OpenNLPFilterFactory"
@@ -292,7 +313,6 @@
         <filter class="solr.FilterPayloadsFilterFactory"
           payloadList="NN,NNS,NNP,NNPS,VB,VBD,VBG,VBN,VBP,VBZ,FW"/>
         <filter class="solr.StripPayloadsFilterFactory"/>
-      </analyzer>
     </fieldType>
 
 
