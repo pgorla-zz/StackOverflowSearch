@@ -38,3 +38,11 @@ Indexing Documents
     -F stream.file=/path/to.csv -F f.t_r_attributes.split=true`
 
 Configuration details in `solr/collection1/conf/schema.xml.`
+
+Spellcheck
+----------
+
+The spellcheck component must be built periodically.
+
+`$ curl http://localhost:8983/solr/collection1/select?start=0 \
+    &rows=0&spellcheck=true&spellcheck.collate=true&spellcheck.build=true`

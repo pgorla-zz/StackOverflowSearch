@@ -37,6 +37,8 @@
 
    <field name="NLPEntities" type="text_opennlp_pos" indexed="true" stored="true" />
 
+   <field name="text_spell" type="textSpell" />
+
   <dynamicField name="*" type="ignored" multiValued="true" />
    
  </fields>
@@ -98,7 +100,26 @@
       </analyzer>
     </fieldType>
 
-        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+     <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100"
+        stored="false" multiValued="true">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.StandardFilterFactory"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+     <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
@@ -198,6 +219,10 @@
     </fieldType>
 
    <copyField source="Body" dest="NLPEntities"/>
+
+   <copyField source="Title" dest="text_spell"/>
+   <copyField source="Tags" dest="text_spell"/>
+   <copyField source="Body" dest="text_spell"/>
 
     <fieldType name="ancestor_path" class="solr.TextField">
       <analyzer type="index">
