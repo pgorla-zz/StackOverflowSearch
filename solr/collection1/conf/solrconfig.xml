@@ -597,6 +597,8 @@
       <arr name="queries">
         <lst>
           <str name="q">static firstSearcher warming in solrconfig.xml</str>
+          <str name="qt">/suggest</str>
+          <str name="spellcheck.build">true</str>
         </lst>
       </arr>
     </listener>
@@ -776,6 +778,8 @@
 
        <str name="facets">true</str>
        <str name="facet.field">Tags</str>
+    
+       <str name="spellcheck">true</str>
 
        <!-- Indexed date data must be grouped by the date gap, or
             the month and year need to be parsed out.
@@ -1162,7 +1166,33 @@
        always be executed after the "last-components" 
        
      -->
-  
+
+   <searchComponent name="suggest" class="solr.SpellCheckComponent">
+    <lst name="spellchecker">
+      <str name="name">suggest</str>
+      <str name="classname">org.apache.solr.spelling.suggest.Suggester</str>
+      <str name="lookupImpl">org.apache.solr.spelling.suggest.fst.FSTLookup</str>
+      <str name="field">text_spell</str>
+      <str name="buildOnOptimize">true</str>
+      <int name="weightBuckets">100</int>
+    </lst>
+  </searchComponent>
+      
+
+   <requestHandler name="/suggest" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="spellcheck">true</str>
+      <str name="spellcheck.dictionary">suggest</str>
+      <str name="spellcheck.count">10</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.onlyMorePopular">true</str>         
+    </lst>
+    <arr name="components">
+      <str>suggest</str>
+    </arr>
+  </requestHandler>
+
+ 
    <!-- Spell Check
 
         The spell check component can return a list of alternative spelling
@@ -1264,6 +1294,7 @@
        See http://wiki.apache.org/solr/SpellCheckComponent for details
        on the request parameters.
     -->
+
   <requestHandler name="/spell" class="solr.SearchHandler" startup="lazy">
     <lst name="defaults">
       <str name="df">text</str>
