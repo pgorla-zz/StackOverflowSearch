@@ -26,7 +26,7 @@ Starting Solr
 -------------
 
 `$ cd solr_example_dir`
-`$ java -jar -Dsolr.solr.home=<full_path_to_this_dir>/solr_home start.jar`
+`$ java -jar -Dsolr.solr.home=<full_path_to_this_dir>/solr_home -Dsolr.clustering.enabled=true start.jar`
 
 
 Indexing Documents

@@ -779,7 +779,14 @@
        <str name="facets">true</str>
        <str name="facet.field">Tags</str>
     
-       <str name="spellcheck">true</str>
+       <bool name="spellcheck">true</bool>
+
+       <bool name="clustering">true</bool>
+       <str name="clustering.engine">default</str>
+       <bool name="clustering.results">true</bool>
+
+       <str name="carrot.title">Tags</str>
+       <str name="carrot.snippet">Body</str>
 
        <!-- Indexed date data must be grouped by the date gap, or
             the month and year need to be parsed out.
@@ -793,6 +800,7 @@
 
        <arr name="last-components">
          <str>spellcheck</str>
+         <str>clustering</str>
        </arr>
     </requestHandler>
 
